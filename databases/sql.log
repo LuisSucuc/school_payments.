@@ -103,3 +103,124 @@ CREATE TABLE "section"(
     "name" CHAR(512)
 );
 success!
+timestamp: 2019-10-19T11:35:16.673600
+CREATE TABLE "degree"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "section" INTEGER REFERENCES "section" ("id") ON DELETE CASCADE  
+);
+success!
+success!
+timestamp: 2019-10-19T11:38:43.513244
+CREATE TABLE "section_degree"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "section" INTEGER REFERENCES "section" ("id") ON DELETE CASCADE  ,
+    "degree" INTEGER REFERENCES "degree" ("id") ON DELETE CASCADE  
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2019-10-19T11:50:11.456785
+CREATE TABLE "students"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombres" INTEGER REFERENCES "degree" ("id") ON DELETE CASCADE  ,
+    "apellidos" INTEGER REFERENCES "degree" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-10-19T11:51:21.592059
+CREATE TABLE "seccion"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512)
+);
+success!
+timestamp: 2019-10-19T11:51:21.709447
+CREATE TABLE "grado"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512)
+);
+success!
+timestamp: 2019-10-19T11:51:21.836809
+CREATE TABLE "section_grado"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "grado" INTEGER REFERENCES "grado" ("id") ON DELETE CASCADE  ,
+    "seccion" INTEGER REFERENCES "seccion" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-10-19T11:51:21.966787
+CREATE TABLE "estudiante"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombres" INTEGER REFERENCES "grado" ("id") ON DELETE CASCADE  ,
+    "apellidos" INTEGER REFERENCES "grado" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-10-19T11:53:13.470252
+CREATE TABLE "seccion_grado"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "grado" INTEGER REFERENCES "grado" ("id") ON DELETE CASCADE  ,
+    "seccion" INTEGER REFERENCES "seccion" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-10-19T11:57:16.263515
+ALTER TABLE "estudiante" ADD "fecha_ingreso" DATE;
+timestamp: 2019-10-19T11:57:16.389333
+ALTER TABLE "estudiante" ADD "fecha_nacimiento" DATE;
+success!
+timestamp: 2019-10-19T11:58:00.040261
+ALTER TABLE "estudiante" ADD "sexo" DATE;
+success!
+timestamp: 2019-10-19T11:59:30.387069
+ALTER TABLE "estudiante" ADD "activo" CHAR(1);
+timestamp: 2019-10-19T11:59:30.497545
+ALTER TABLE "estudiante" ADD "email" CHAR(512);
+success!
+DROP TABLE "estudiante";
+success!
+timestamp: 2019-10-19T12:12:50.732205
+CREATE TABLE "estudiante"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombres" CHAR(512),
+    "apellidos" CHAR(512),
+    "email" CHAR(512),
+    "fecha_nacimiento" DATE,
+    "fecha_ingreso" DATE,
+    "sexo" CHAR(512),
+    "activo" CHAR(1)
+);
+success!
+timestamp: 2019-10-19T12:18:10.794036
+ALTER TABLE "grado" ADD "valor" DOUBLE;
+success!
+timestamp: 2019-10-19T12:21:32.327086
+ALTER TABLE "estudiante" ADD "seccion_grado" INTEGER REFERENCES "seccion_grado" ("id") ON DELETE CASCADE  ;
+success!
+timestamp: 2019-10-19T12:32:38.895917
+CREATE TABLE "mes"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512)
+);
+success!
+timestamp: 2019-10-19T12:38:07.158349
+ALTER TABLE "mes" ADD "orden" DOUBLE;
+success!
+DROP TABLE "mes";
+success!
+timestamp: 2019-10-19T12:38:14.953155
+CREATE TABLE "mes"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "orden" DOUBLE
+);
+success!

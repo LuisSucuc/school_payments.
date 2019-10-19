@@ -7,7 +7,8 @@
 # ---- example index page ----
 @auth.requires_login()
 def index():
-    return dict()
+    grid = SQLFORM.grid(db.section)
+    return locals()
 
 # ---- API (example) -----
 @auth.requires_login()

@@ -1,0 +1,35 @@
+{{extend 'layout.html'}}
+
+<link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap4.css')}}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+<div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    Secciones
+                </h3>
+            </div>
+        </div>
+        <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                    </li>
+                </ul>
+            </div>
+    </div>
+    <div class="m-portlet__body">
+        {{=grid}}
+    </div>
+</div>
+
+<script>
+    $('input').addClass('m-input m-input--air m-input--pill')
+    $('select').addClass('m-input m-input--air m-input--pill')
+
+    $('.btn').addClass('btn m-btn--pill m-btn--air btn-outline-primary btn-sm').removeClass('btn-default btn-secondary')
+    
+</script>
+
+

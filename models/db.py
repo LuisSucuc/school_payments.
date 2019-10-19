@@ -152,13 +152,57 @@ if configuration.get('scheduler.enabled'):
 
 
 
-db.define_table('section',
+db.define_table('mes',
+    Field('nombre',         'string',           label = T('Nombre')),
+    Field('orden',          'double',           label = T('Orden'),),
+    format = '%(nombre)s')
+
+db.mes.nombre.requires  = IS_NOT_EMPTY(error_message=T('Mes inválido'))
+db.mes.orden.requires   = IS_FLOAT_IN_RANGE(0, error_message=T('Orden inválido'))
+
+db.define_table('seccion',
     Field('name',           'string',           label = T('Name')),
     format = '%(name)s')
 
-db.section.name.requires          = IS_NOT_EMPTY(error_message=T('Invalid name'))
+db.seccion.name.requires          = IS_NOT_EMPTY(error_message=T('Nombre invalido'))
 
-# -------------------------------------------------------------------------
-# after defining tables, uncomment below to enable auditing
-# -------------------------------------------------------------------------
-# auth.enable_record_versioning(db)
+
+db.define_table('grado',
+    Field('name',           'string',               label = T('Name')),
+    Field('valor',          'double',               label = T('Valor (Q.)')),
+    format = '%(name)s')
+db.grado.name.requires = IS_NOT_EMPTY(error_message=T('Nombre invalido'))
+db.grado.valor.requires= IS_FLOAT_IN_RANGE(0, error_message=T('Precio inválido'))
+
+
+db.define_table('seccion_grado',
+    Field('grado',         'reference grado',     label = T('Grado')),
+    Field('seccion',        'reference seccion',    label = T('Seccion')),
+    format = lambda record: record.grado.name + ' - ' + record.seccion.name )
+
+db.seccion_grado.seccion.requires  = IS_IN_DB(db, 'seccion.id', db.seccion._format,
+                                        zero=T('Selecciona uno'), error_message=T('Select a seccion'),)
+db.seccion_grado.grado.requires  = IS_IN_DB(db, 'grado.id', db.grado._format,
+                                        zero=T('Selecciona uno'), error_message=T('Select a grado'), orderby='name')
+
+
+db.define_table('estudiante',
+    Field('nombres',            'string',                   label = 'Nombres'),
+    Field('apellidos',          'string',                   label = 'Apellidos'),
+    Field('email',              'string',                   label = 'Coreo electronico'),
+    Field('fecha_nacimiento',   'date',                     label = 'Fecha de nacimiento'),
+    Field('fecha_ingreso',      'date',                     label = 'Fecha de ingreso'),
+    Field('sexo',               'string',                   label = 'Sexo'),
+    Field('activo',             'boolean',                  label = T('Activo'), default=True),
+    Field('seccion_grado',      'reference seccion_grado',  label = T('Grado')),
+    format = '%(nombres)s')
+
+
+db.estudiante.nombres.requires           = IS_NOT_EMPTY(error_message=T('Nombres invalidos'))
+db.estudiante.apellidos.requires         = IS_NOT_EMPTY(error_message=T('Apellidos invalidos'))
+db.estudiante.email.requires             = IS_EMAIL(error_message=T('Apellidos invalidos'))
+db.estudiante.fecha_nacimiento.requires  = IS_DATE(format=T('%d/%m/%Y'), error_message='¡Debe ser YYYY-MM-DD!')
+db.estudiante.fecha_ingreso.requires     = IS_DATE(format=T('%d/%m/%Y'), error_message='¡Debe ser YYYY-MM-DD!')
+db.estudiante.sexo.requires              = IS_IN_SET(['Masculino', 'Femenino'])
+db.estudiante.seccion_grado.requires  = IS_IN_DB(db, 'seccion_grado.id', db.seccion_grado._format,
+                                        zero=T('Selecciona uno'), error_message=T('Selecciona un grado'))
