@@ -36,7 +36,7 @@
                         <i class="flaticon-statistics"></i>
                     </span>
                     <h3 class="m-portlet__head-text">
-                        Pagos pendientes
+                        PAGOS PENDIENTES
                     </h3>
                     <h2 class="m-portlet__head-label m-portlet__head-label--danger">
                         <span>{{=estudiante.seccion_grado.grado.name}} - {{=estudiante.seccion_grado.seccion.name}}</span>
@@ -90,16 +90,28 @@
     </div>
 {{pass}}
 
+{{if estudiante_id:}}
+<center>
+    <a href="{{=URL('recibo', vars=dict(estudiante_id=estudiante_id))}}" target="_blank"
+     class="btn btn-outline-info m-btn m-btn--icon m-btn--outline-2x m-btn--pill m-btn--air">
+        <span>
+            <i class="la la-print"></i>
+            <span>Imprimir Recibo</span>
+        </span>
+    </a>
 
 
 
-     <button type="button" onclick="printJS('printJS-form', 'html')">
-        Print Form
-     </button>
-
-     <button type="button" onclick="printJS({printable: someJSONdata, properties: ['name', 'email', 'phone'], type: 'json'})">
-            Print JSON Data
-         </button>
+    <button type="button" class="btn btn-outline-info m-btn m-btn--icon m-btn--outline-2x m-btn--pill m-btn--air"
+            onclick="printJS('printJS-form', 'html')">
+            <span>
+                <i class="la la-print"></i>
+                <span>Imprimir Resumen</span>
+            </span>
+    </button>
+</center>
+{{pass}}
+   
          
 {{block page_js}}
 <script src="{{=URL('static','Metronic/bootstrap-select/js/bootstrap-select.js')}}"></script>
@@ -107,23 +119,7 @@
 {{end page_js}}
 
 <script>
-     someJSONdata = [
-    {
-       name: 'John Doe',
-       email: 'john@doe.com',
-       phone: '111-111-1111'
-    },
-    {
-       name: 'Barry Allen',
-       email: 'barry@flash.com',
-       phone: '222-222-2222'
-    },
-    {
-       name: 'Cool Dude',
-       email: 'cool@dude.com',
-       phone: '333-333-3333'
-    }
- ]
+ 
 
 
     var BootstrapSelect = function () {

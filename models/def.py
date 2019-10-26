@@ -1,1 +1,1 @@
-app_name = 'Metronic'
+app_name = 'Colegio JE'

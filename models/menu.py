@@ -14,8 +14,8 @@ if auth.has_membership(group_id='Administrator'):
                             ('Estudiantes',         False,      URL('class', 'estudiantes'),    []),
                         ]),
 
-                        ( 'Pagos',     'flaticon-interface-1',        None, 
+                        ( 'Pagos',     'flaticon-piggy-bank',        None, 
                         [
-                            ('Pagos',            False,      URL('manage', 'users'),     []),
+                            ('Pagos',            False,      URL('pagos', 'pagos'),     []),
                         ]),
                     ]

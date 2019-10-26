@@ -10,7 +10,7 @@ def pagos():
     estudiante = db.estudiante[estudiante_id] if estudiante_id else None
     estudiantes = db(db.estudiante).select()
     servicios = db(db.mes_servicio).select(orderby=db.mes_servicio.orden)
-    cantidad = estudiante.seccion_grado.grado.valor
+    cantidad = estudiante.seccion_grado.grado.valor if estudiante else 0
     if request.post_vars:
         
         if request.vars.servicio_id:
@@ -30,3 +30,14 @@ def pagos():
                 estudiantes         = estudiantes,
                 estudiante          = estudiante,
                 cantidad            = cantidad)
+
+@auth.requires_login()
+def recibo():
+    estudiante = db.estudiante[request.vars.estudiante_id]
+    pagos = db( db.pago.estudiante == estudiante.id).select()
+    cantidad = estudiante.seccion_grado.grado.valor
+    total = db( db.pago.estudiante == estudiante.id).count() * cantidad
+    return dict(estudiante = estudiante,
+                pagos      = pagos,
+                total      = total,
+                cantidad   = cantidad)
