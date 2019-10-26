@@ -224,3 +224,38 @@ CREATE TABLE "mes"(
     "orden" DOUBLE
 );
 success!
+DROP TABLE "mes";
+success!
+timestamp: 2019-10-21T22:06:20.781673
+CREATE TABLE "mes"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "orden" DOUBLE
+);
+success!
+DROP TABLE "mes";
+success!
+timestamp: 2019-10-21T22:06:23.710782
+CREATE TABLE "mes"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "orden" DOUBLE
+);
+success!
+DROP TABLE "mes";
+success!
+timestamp: 2019-10-21T22:16:59.465310
+CREATE TABLE "mes_servicio"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "orden" DOUBLE
+);
+success!
+timestamp: 2019-10-21T22:16:59.577132
+CREATE TABLE "pago"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "estudiante" INTEGER REFERENCES "estudiante" ("id") ON DELETE CASCADE  ,
+    "mes_servicio" INTEGER REFERENCES "mes_servicio" ("id") ON DELETE CASCADE  ,
+    "fecha_ingreso" DATE
+);
+success!

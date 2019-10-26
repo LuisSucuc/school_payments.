@@ -13,4 +13,9 @@ if auth.has_membership(group_id='Administrator'):
                             ('Asignación SG',       False,      URL('class', 'secciones_grados'),    []),
                             ('Estudiantes',         False,      URL('class', 'estudiantes'),    []),
                         ]),
+
+                        ( 'Pagos',     'flaticon-interface-1',        None, 
+                        [
+                            ('Pagos',            False,      URL('manage', 'users'),     []),
+                        ]),
                     ]

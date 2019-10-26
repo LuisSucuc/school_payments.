@@ -152,13 +152,13 @@ if configuration.get('scheduler.enabled'):
 
 
 
-db.define_table('mes',
+db.define_table('mes_servicio',
     Field('nombre',         'string',           label = T('Nombre')),
     Field('orden',          'double',           label = T('Orden'),),
     format = '%(nombre)s')
 
-db.mes.nombre.requires  = IS_NOT_EMPTY(error_message=T('Mes inválido'))
-db.mes.orden.requires   = IS_FLOAT_IN_RANGE(0, error_message=T('Orden inválido'))
+db.mes_servicio.nombre.requires  = IS_NOT_EMPTY(error_message=T('Mes inválido'))
+db.mes_servicio.orden.requires   = IS_FLOAT_IN_RANGE(0, error_message=T('Orden inválido'))
 
 db.define_table('seccion',
     Field('name',           'string',           label = T('Name')),
@@ -181,9 +181,9 @@ db.define_table('seccion_grado',
     format = lambda record: record.grado.name + ' - ' + record.seccion.name )
 
 db.seccion_grado.seccion.requires  = IS_IN_DB(db, 'seccion.id', db.seccion._format,
-                                        zero=T('Selecciona uno'), error_message=T('Select a seccion'),)
+                                        zero=T('Selecciona uno'), error_message=T('Selecciona seccion'),)
 db.seccion_grado.grado.requires  = IS_IN_DB(db, 'grado.id', db.grado._format,
-                                        zero=T('Selecciona uno'), error_message=T('Select a grado'), orderby='name')
+                                        zero=T('Selecciona uno'), error_message=T('Selecciona grado'), orderby='name')
 
 
 db.define_table('estudiante',
@@ -206,3 +206,16 @@ db.estudiante.fecha_ingreso.requires     = IS_DATE(format=T('%d/%m/%Y'), error_m
 db.estudiante.sexo.requires              = IS_IN_SET(['Masculino', 'Femenino'])
 db.estudiante.seccion_grado.requires  = IS_IN_DB(db, 'seccion_grado.id', db.seccion_grado._format,
                                         zero=T('Selecciona uno'), error_message=T('Selecciona un grado'))
+
+
+
+db.define_table('pago',
+    Field('estudiante',             'reference estudiante',         label = 'Estudiante'),
+    Field('mes_servicio',           'reference mes_servicio',       label = 'Sección'),
+    Field('fecha_ingreso',          'date',                         label = 'Fecha de pago', default=request.now),
+    format = '%(estudiante)s')
+
+db.pago.mes_servicio.requires  = IS_IN_DB(db, 'mes_servicio.id', db.mes_servicio._format,
+                                        zero=T('Selecciona uno'), error_message=T('Selecciona mes-servicio'),)
+db.pago.estudiante.requires  = IS_IN_DB(db, 'estudiante.id', db.estudiante._format,
+                                        zero=T('Selecciona uno'), error_message=T('Selecciona estudiante'), orderby='name')

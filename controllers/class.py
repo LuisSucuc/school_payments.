@@ -19,6 +19,5 @@ def secciones_grados():
 
 @auth.requires_login()
 def estudiantes():
-    db.mes.drop()
     grid = SQLFORM.grid(db.estudiante)
     return locals()

@@ -1,0 +1,148 @@
+{{extend 'layout.html'}}
+
+<link rel="stylesheet" href="{{=URL('static','Metronic/bootstrap-select/css/bootstrap-select.min.css')}}">
+<link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+
+
+
+
+
+<form class="" method="POST">
+    <div class="form-group m-form__group row">
+        
+        <div class="col-md-4 offset-md-3 col-sm-12">
+            <select class="form-control m-bootstrap-select m_selectpicker" 
+                    data-live-search="true"
+                    name="estudiante_id">
+                    <option value=""></option>
+                {{for estud in estudiantes:}}
+                    <option value="{{=estud.id}}"  {{if str(estudiante_id) == str(estud.id):}} selected {{pass}} >{{=estud.nombres}} {{=estud.apellidos}}</option>                {{pass}}
+            </select>
+        </div>
+        
+        <div class="col-md-1 col-sm-12">
+            <button type="submit" class="btn m-btn--pill m-btn--air btn-outline-info m-btn m-btn--custom">{{=T('Filter')}}</button>
+        </div>
+    </div>
+</form>
+
+
+{{if estudiante:}}
+    <div class="m-portlet m-portlet--creative m-portlet--first m-portlet--bordered-semi">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon m--hide">
+                        <i class="flaticon-statistics"></i>
+                    </span>
+                    <h3 class="m-portlet__head-text">
+                        Pagos pendientes
+                    </h3>
+                    <h2 class="m-portlet__head-label m-portlet__head-label--danger">
+                        <span>{{=estudiante.seccion_grado.grado.name}} - {{=estudiante.seccion_grado.seccion.name}}</span>
+                    </h2>
+                </div>
+            </div>
+        
+        </div>
+        {{ pagos_pendietes = get_pagos_pendientes(estudiante.id) }}
+        <div class="m-portlet__body">
+            <table id="printJS-form" class="table table-bordered m-table m-table--border-brand m-table--head-bg-brand">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Servicio</th>
+                        <th>Cantidad</th>
+                        <th>Pagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{for index, pendiente in enumerate(pagos_pendietes, start=1): }}
+                        <tr class="{{='table-danger' if not pendiente.pagado else ''}}">
+                            <td>{{=index}}</td>
+                            <td>{{=pendiente.nombre}}</td>
+                            <td>Q. {{=cantidad}}</td>
+                            {{if not pendiente.pagado:}}
+                                <td>
+                                    <form method="POST">
+                                        <input type="hidden" name="estudiante_id"     value="{{=estudiante_id}}">
+                                        <input type="hidden" name="servicio_id"   value="{{=pendiente.id}}">
+                                        <button  type="submit" class="btn btn-outline-info m-btn m-btn--icon m-btn--outline-2x m-btn--pill m-btn--air">
+                                            <span>
+                                                <i class="la la-check"></i>
+                                                <span>Pagar</span>
+                                            </span>
+                                        </button>
+                                    </form>
+                                </td>
+                            {{else:}}
+                                <td>
+                                    <a href="#" class="btn btn-primary m-btn m-btn--icon btn-lg m-btn--icon-only  m-btn--pill m-btn--air">
+                                        <i class="la la-check"></i>
+                                    </a>
+                                </td>
+                            {{pass}}
+                        </tr>
+                    {{pass}}
+                </tbody>
+            </table>                    
+        </div>
+    </div>
+{{pass}}
+
+
+
+
+     <button type="button" onclick="printJS('printJS-form', 'html')">
+        Print Form
+     </button>
+
+     <button type="button" onclick="printJS({printable: someJSONdata, properties: ['name', 'email', 'phone'], type: 'json'})">
+            Print JSON Data
+         </button>
+         
+{{block page_js}}
+<script src="{{=URL('static','Metronic/bootstrap-select/js/bootstrap-select.js')}}"></script>
+<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+{{end page_js}}
+
+<script>
+     someJSONdata = [
+    {
+       name: 'John Doe',
+       email: 'john@doe.com',
+       phone: '111-111-1111'
+    },
+    {
+       name: 'Barry Allen',
+       email: 'barry@flash.com',
+       phone: '222-222-2222'
+    },
+    {
+       name: 'Cool Dude',
+       email: 'cool@dude.com',
+       phone: '333-333-3333'
+    }
+ ]
+
+
+    var BootstrapSelect = function () {
+    
+        //== Private functions
+        var demos = function () {
+            // minimum setup
+            $('.m_selectpicker').selectpicker();
+        }
+
+        return {
+            // public functions
+            init: function() {
+                demos(); 
+            }
+        };
+    }();
+
+    jQuery(document).ready(function() {    
+        BootstrapSelect.init();
+    });
+</script>
