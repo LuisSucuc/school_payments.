@@ -3,7 +3,7 @@
 #*********************************************
 #         CATÁLOGO DE USUARIOS
 #*********************************************
-#1
+#
 @auth.requires_membership('Administrator')
 def users():
     users = db(db.auth_user).select(db.auth_user.id,
@@ -11,7 +11,7 @@ def users():
                                     db.auth_user.last_name,
                                     db.auth_user.email)
     def get_membership(user_id):
-		return db(db.auth_membership.user_id == user_id).select(db.auth_membership.group_id)
+        return db(db.auth_membership.user_id == user_id).select(db.auth_membership.group_id)
     return dict(users = users,
                 get_membership = get_membership)
 
@@ -25,7 +25,7 @@ def edit_user():
                    showid =False)
 
     if form.process().accepted:
-    	session.flash = T('Saved')
+        session.flash = T('Saved')
         redirect(URL('users'))
     elif form.errors:
         response.flash = T('Check your data')
